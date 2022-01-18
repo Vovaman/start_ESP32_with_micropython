@@ -233,7 +233,7 @@ $ esptool.py --chip esp32 --port /dev/ttyUSB0 --baud 460800 write_flash -z 0x100
 ![Pymakr2](/img/pymakr02.png)  
 выберем ту же команду.  
 <details>
-   <summary>Обратите внимание, что:</summary>
+   <summary>Обратите внимание, что...</summary>
 
    в настройках проекта в файле `pymakr.conf` (ключ `sync_folder`) указано, 
    что исходные коды загружаемого в контроллер проекта находятся в каталоге `src`.  
