@@ -1,69 +1,71 @@
+[Rus](README.ru.md)
 # start_ESP32_with_micropython
 
-## Общее описание
-Проект, содержащий описание всех шагов для начала работы с контроллером [ESP32](https://www.espressif.com/en/products/socs/esp32) 
-на языке [Micropython](https://micropython.org/).  
-Кроме описания, содержится код, который мы запустим на контроллере: мигающий диод.  
-Цель -- запустить минимальный проект на контроллере, чтобы разобраться, как всё работает.  
-В перспективе -- создание кода (https://github.com/Vovaman/connectorESP), управляющего подсоединенными к контроллеру устройствами и отсылающего
-данные измерений в базу данных реального времени (https://github.com/Vovaman/peresvet).  
-Первый практический проект -- ["антикессон"](https://github.com/Vovaman/wellCabin), будка над скважиной.  
-Контроллер будет включать/выключать обогрев в будке, включать/выключать вентиляцию, а также снимать данные по давлению воды. В дальнейшем - включать/выключать насос.  
-**Почему micropython?** Признаться, мне самому приятней программировать для контроллера на C, используя Arduino IDE. Но главный из вышеперечисленных проектов, [Пересвет](https://github.com/Vovaman/peresvet), реализован на Python, поэтому проще продолжать писать на питоне.
+## Introduction
+This project contains all steps to start to work with [ESP32](https://www.espressif.com/en/products/socs/esp32) 
+using [Micropython](https://micropython.org/).  
+Besides this description project contains code for LED blinking. We will run this code on cotroller.  
 
-## Кому предназначено
-Во-первых, мне самому, чтобы не забыть последовательность шагов.  
-Во-вторых, программистам, желающим оживить и автоматизировать что-то вокруг себя.  
-В-третьих, всем рукастым или не очень любителям, желающим своими руками попробовать интернет вещей [IoT](https://ru.wikipedia.org/wiki/%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%BD%D0%B5%D1%82_%D0%B2%D0%B5%D1%89%D0%B5%D0%B9).  
-Так как среди третьих часто встречаются люди, слабо знакомые с программированием, поэтому описание несколько избыточное, но эти избыточные 
-подробные описания спрятаны в спойлерах.  
-Тем не менее, предполагается, что пользователи имеют базовые навыки: умеют скачивать файлы, запускать терминал, 
-работать с командами в командной строке и т.д.
+**Our goal** is to run project on controller to understand all the process.
 
-## Исходные данные
-Имеем:  
+**Perspective** is to create [standard "connector"](https://github.com/Vovaman/connectorESP). This connector will realize some 
+control algorithm, acquire data from plugged devices and send it to [platform](https://github.com/Vovaman/peresvet).  
 
-1. Контроллер ESP32.
-   Работаем с моделью [ESP32S-WROOM-32](https://aliexpress.ru/item/1005002611857804.html?item_id=1005002611857804&sku_id=12000021386518349&spm=a2g2w.productlist.0.0.28c767f2tgjXEB) (стоимость на AliExpress на момент написания текста - 389 рублей):
+First practical project is ["anti-caisson"](https://github.com/Vovaman/wellCabin), which is coffer over well.  
+Controller will switch on/off heating and ventilation and will acquire water pressure data. More perspective - switch on/off the pump.  
+
+**Why micropython?** All other referenced above projects are in Python. So, this is why micropython is the better choice.
+
+## For whom
+Firstly, for myself to not forget all the sequence.  
+Secondly, for programmers wishing to automate some things around.  
+Thirdly, for all handy guys.    
+Due to possible programming weakness among fans, description will be some redundant. But these redundancies will be under spoilers.  
+However, it is necessary to have some basic skills with computer: run terminal, work with commands in console, download files in browser and save them into appropriate places and so on...  
+
+## Starting point
+So, we have:  
+
+1. ESP32 controller.
+   Will work with [ESP32S-WROOM-32](https://aliexpress.ru/item/1005002611857804.html?item_id=1005002611857804&sku_id=12000021386518349&spm=a2g2w.productlist.0.0.28c767f2tgjXEB) (approx $5):  
    ![ESP32](/img/ESP.png)  
-   *Изображение с сайта http://myrobot.ru*  
-   Здесь надо сказать, что существует большое разнообразие исполнений контроллера ESP32. В проекте можно использовать и другие исполнения контроллера, но в этом случае придётся скачивать другие версии прошивок.
-2. Операционная система - Ubuntu 20.04.3 LTS.  
-   > :warning: Изначально все проекты делаются на базе Ubuntu. Windows будет добавлена только в случае запросов. 
-3. Шнур USB - microUSB для подключения контроллера.  
-   > :warning: **Внимание:** Часто встречаются шнуры без провода для передачи данных, только для подзарядки. Нам нужен шнур с проводом для передачи данных.
+   *Picture from http://myrobot.ru*  
+   There is wide range of ESP32 implementations. This project is applicable to many of them, but another firmware version has to be downloaded.
+2. OS is Ubuntu 20.04.3 LTS.  
+   > :warning: Windows only by demands... 
+3. USB - microUSB cable.  
+   > :warning: **Warning:** There are cables without data wire. They are used only for recharging. We need cable with data wire!
 
-## Поехали
+## Go on
 
 ### 1. Node.js
-Для нормальной работы расширения Pymakr, которое мы будем использовать, необходим [Node.js](https://nodejs.org/ru/).  
+It is necessary install [Node.js](https://nodejs.org/ru/). `Pymakr` extension for `VSCode` needs it.
 <details>
-   <summary>Установка Node.js</summary>
+   <summary>Installation of Node.js</summary>
 
-   Открываем терминал и выполняем команду:  
+   Open terminal and run:  
    ```bash
    $ sudo snap install --classic node
    ```
-   Проверим результат установки:
+   Check the result:
    ```bash
    $ node --version
    ```
-   Команда выведет текущую версию `nodejs`.
+   This command will return the current version of `Node.js`.
 
 </details>
 
 ### 2. VSCode
-Устанавливаем среду разработки [VSCode](https://code.visualstudio.com/).  
-> :warning: **Внимание, очень важный момент!** Если у вас VSCode уже установлена с помощью менеджера пакетов `snap`, 
-> то её необходимо удалить и поставить с помощью пакета `deb`. 
-> В версии среды, устанавливаемой с помощью `snap`, не работает необходимое нам в дальнейшем дополнение среды `Pymakr`.
+Next step. We have to install [VSCode](https://code.visualstudio.com/).  
+> :warning: **Warning!** If you've installed VSCode by snap, you have to delete it and install it again by deb-package. 
+> `Pymakr`-extension for VSCode does not work in snap-version.
 
 <details>
-   <summary>Установка VSCode</summary>
+   <summary>VSCode installation</summary>
    
-   1. Открываем в браузере ссылку https://code.visualstudio.com/. На открывшейся странице нажимаем кнопку `deb`:  
+   1. Open https://code.visualstudio.com/ in your browser and press `deb`-button:  
       ![VSpage](/img/vs0.png)         
-   2. Запускаем терминал. Переходим в каталог, в который был скачан пакет (на текущий момент - `code_1.63.2-1639562499_amd64.deb`) и выполняем команду:  
+   2. Run terminal, go to directory with package you just downloaded (`code_1.63.2-1639562499_amd64.deb` at the moment). Run the command:  
       ```bash
       sudo dpkg -i code_163.2-1639562499_amd64.deb
       ```      
@@ -71,34 +73,35 @@
 </details>
 
 ### 3. Pymakr
-[Pymakr](https://pycom.io/products/supported-networks/pymakr/) - расширение среды VSCode для работы с `micropython`.  
+[Pymakr](https://pycom.io/products/supported-networks/pymakr/) is the VSCode's extension to work with `micropython`.  
 
 <details>
-   <summary>Устанавливаем Pymakr</summary>
+   <summary>Install Pymakr</summary>
 
-   Для его установки нажимаем в VSCode кнопку `Расширения`(`Extentions`):  
-   ![Extentions](/img/vs1.png)  
-   В появившемся окне поиска расширений введём текст `Pymakr`, затем выберем найденное расширение и в окне его свойств нажмём кнопку `install`:  
+   Run VSCode and press `Extensions`:  
+   ![Extensions](/img/vs1.png)  
+   Insert `Pymakr` in search field, choose `Pymakr` and press `install` button:  
    ![Pymakr](/img/vs2.png)  
 
 </details>
 
-В конце установки расширения откроется файл настроек и терминал внутри VSCode:  
+The settings window and terminal will be opened after installation:  
 ![PymakrEnd](/img/vs3.png)  
-Закроем пока и файл и терминал.
+Close it.
 
-### 4. Копирование проекта
-Предполагаем, что проект будет лежать в папке `~/work/projects`. 
+### 4. Copy this project
+Suppose the parent directory is `~/work/projects`. 
 
 <details>
-   <summary>Клонируем</summary>
+   <summary>Clone from github</summary>
 
-   Лучше всего, если вы заведёте свой аккаунт на сайте [github.com](https://github.com) и клонируете проект.  
-   Для этого вам потребуется установить `git` - инструмент работы с хранилищами исходного кода.
+   It is the better choice to get your own [github](https://github.com) account and clone this project.  
+   In such case you have to install `git` - repository management tool:
    ```bash
    $ sudo apt install git
    ```
-   После этого клонируем проект в вышеупомянутую папку:  
+   
+   So, just clone this project after git installation:  
    ```bash
    $ cd ~/work/projects
    $ git clone git@github.com:Vovaman/start_ESP32_with_micropython.git
@@ -107,21 +110,21 @@
 </details>
 
 <details>
-   <summary>...или копируем проект</summary>
+   <summary>...or download the source archive</summary>
 
-   Другой вариант - скачать архив с исходными кодами проекта: заходим в веб-браузере по ссылке
+   Another way is to download the archive with source codes from
    `https://github.com/Vovaman/start_ESP32_with_micropython/archive/refs/heads/master.zip`.  
-   Появится диалог запроса на сохранение файла. Скачайте архив и переместите его в папку `~/work/projects`.
-   Разархивируйте полученный архив и переименуйте получившуюся папку с исходниками в `start_ESP32_with_micropython`.
+   Download this archive and save it in `~/work/projects`.
+   Extract files from archive to `start_ESP32_with_micropython` folder.
 
 </details>
 
 ### 5. Python 3.9
-По умолчанию в Ubuntu 20.04 установлен Python 3.8, нам же нужен Python 3.9.  
+There is Python 3.8 by default in Ubuntu 20.04, but we need Python 3.9.  
 <details>
-   <summary>Установим его</summary>
+   <summary>Install it</summary>
 
-   ...выполнив последовательно в терминале команды:  
+   ...run these commands consistently:  
    ```bash
    $ sudo apt update
    $ sudo apt install software-properties-common
@@ -131,136 +134,142 @@
 
 </details>
 
-### 6. Инициализируем проект
-Открываем терминал и заходим в папку, в которой находятся исходники проекта: `~/work/projects/start_ESP32_with_micropython`.
+### 6. Initialize project
+Open terminal and got to `~/work/projects/start_ESP32_with_micropython` with project source code.
 
-Внутри этой папки выполняем команду 
+Run this command inside the folder:
 ```bash
 $ pipenv install
 ```
 <details>
-   <summary>Зачем?</summary>
+   <summary>Why?</summary>
 
-   Pipenv - инструмент, который позволяет создать для каждого проекта, расположенного в отдельной папке, свою python-среду, со своей версией Python'а, с необходимыми модулями. Таким образом, проекты изолируются друг от друга и от операционной системы, нет конфликта версий Python'а и модулей между проектами.
+   `Pipenv` is the tool to create python environment for projects. Each project may have its own environment with specific Python version and 
+   packages installed. Thus projects do not intersect each other and operational Python environment.
 
 </details>
 
-В процессе инициализации будут установлены пакеты: 
-- `esptool`, который мы будем использовать для прошивки контроллера и 
-- `micropy-cli` - для удобства работы с проектом.
+These packages will be installed during environment initialization:  
+- `esptool`, tool to flash our controller
+- `micropy-cli` - just useful tool.
 
-### 7. Прошиваем контроллер
+### 7. Flash the controller
 
-**Скачиваем прошивку**  
-Заходим на страницу https://micropython.org/download/, выбираем свою модель контроллера и скачиваем нужный файл прошивки (*.bin) в папку проекта.  
-Если модель контроллера совпадает с показанной на картинке в самом начале, то нужный файл (esp32-20220117-v1.18.bin
-) находится в каталоге проекта. Файл скачан со страницы https://micropython.org/download/esp32/.
+**Download firmware**
+Download appropriate firmware from https://micropython.org/download/.  
+If your controller model is the same as in picture above, you may use `esp32-20220117-v1.18.bin` from the project.  
+Or download the newer version from https://micropython.org/download/esp32/.
 
-**Определяем порт**
+**Check the port**
 <details>
-   <summary>Чаще всего порт - ttyUSB0</summary>
+   <summary>It is ttyUSB0 more often</summary>
 
-   Определим создаваемый при подключении контроллера порт. Для этого:  
-   Зайдём в каталог `/dev` и выведем список устройств:
+   So, let's define the created port name when you connect controller to computer.  
+   Go to `/dev` folder and list all devices:  
    ```bash
    $ cd /dev
    $ ls
    ``` 
-   Соединим шнуром контроллер с USB-портом компьютера и опять посмотрим список устройств в том же каталоге `/dev`:
+   Then connect controller to computer and list devices again:
    ```bash
    $ ls
    ```
-   Посмотрим, какая строка добавилась в списке по сравнению с первым случаем, это и будет нужное нам имя порта. Скорее всего, это будет `ttyUSB0`.
+   Find new string in the list. This string is the port name we need.  
+   Suppose it is `ttyUSB0`.
 
 </details>
 
-**Даём права на запись в порт**
+**Set rights to write**
 <details>
    <summary>sudo adduser user_name dialout</summary>
 
-   Чтобы иметь возможность прошить контроллер, пользователь, под которым мы работаем, должен иметь права на запись в определённый нами USB-COM порт.  
-   Для этого выполним команду (вместо `<user_name>` подставьте имя вашего аккаунта в операционной системе):
+   Our working account needs rights for write to upgrade the controller.  
+   We have to run the command in terminal to do so (change `<user_name>` to your account):  
    ```bash
    $ sudo adduser <user_name> dialout
    ```
 
 </details>
 
-**Перепрошиваем контроллер**
+**Flash the controller**
 <details>
-   <summary>Открываем проект в VSCode</summary>
+   <summary>Open this project in VSCode</summary>
 
-   Запускаем VSCode, командой меню `Файл --> Открыть папку...` открываем папку с проектом: `~/work/projects/ESP32`.  
+   Run VSCode. Choose command `File --> Open folder...` and open `~/work/projects/start_ESP32_with_micropython`.  
 </details>
 
 <details>
-   <summary>В VSCode открываем терминал...</summary>
+   <summary>Open terminal inside VSCode...</summary>
 
-   В VSCode выполняем команду меню `Терминал --> Создать терминал`.  
-   Внизу откроется окно терминала, при этом автоматически инициализируется среда проекта.  
-   Об инициализации среды будет говорить то, что перед приглашением командной строки будет имя проекта  скобках 
-   (в моем случае - start_ESP32_with_micropython):  
+   Run VSCode and choose `Terminal --> New terminal`.  
+   New termianl windows will be opened at the bottom of the main VSCode's window.  
+   Project's environment would be initialized automatically.  
+   You will see the `(start_ESP32_with_micropython)` before prompt in terminal:  
    ![Env](/img/term01.png)   
+   ...or run 
+   ```bash
+   $ pipenv shell
+   ```
+   otherwise.
 
 </details>
 
-...и, убедившись, что среда проекта активирована, выполняем команду, стирающую прошивку в контроллере:
+...be sure the project's environment is activated and clean the controller:
 ```bash
 $ esptool.py --chip esp32 --port /dev/ttyUSB0 erase_flash
 ```
-И запишем новую, с micropython'ом:
+Write new firmware with micropython:
 ```bash
 $ esptool.py --chip esp32 --port /dev/ttyUSB0 --baud 460800 write_flash -z 0x1000 esp32-20220117-v1.18.bin
 ```
-> :warning: Если ваш чип - не указанный в проекте, то скопируйте команды стирания прошивки и её записи со страницы, с которой скачивали нужную вам прошивку!
-> Также подставьте нужное имя порта и имя файла прошивки!
+> :warning: If your got other controller model, copy the commands from page your downloaded the firmware file!
+> Change port name and file name to correct values!
 
-Проверим результат, для чего будем использовать команды Pymakr в строке состояния VSCode:  
-1. Откроем файл `pymakr.conf` и исправим поле `address`, вписав туда правильное имя порта.
-2. Кликнем на надписи `Pymakr Console`:  
+Use `Pymakr` in `VSCode` to check the result:  
+1. Open file `pymakr.conf` and change `address` field to correct port name.
+2. Click `Pymakr Console`:  
    ![Pymakr](/img/pymakr.png)
-3. Откроется окно терминала следующего вида:
+3. Terminal's window will be opened:
    ![Pymakr2](/img/pymakr02.png)  
-   Мы находимся в консоли, предоставляемой Python'ом контроллера.  
-   Введём в консоли следующий текст: 
+   It means we are inside controller and use Python's REPL.  
+   
+   Run the code: 
    ```python
-   from machine import Pin
-   p2 = Pin(2, Pin.OUT)
-   p2.on()
+   >>> from machine import Pin
+   >>> p2 = Pin(2, Pin.OUT)
+   >>> p2.on()
    ```
-   В результате на контроллере загорится синий диод (пример действителен только для контроллеров со встроенным диодом).
+   Blue LED will light up (this example is actual only for controllers with built-in LED).
 
-### 8. Заливаем проект
-Перед заливкой необходимо соединиться с устройством, либо открыв консоль Pymakr, либо выполнив команду `Pymakr --> Connect`.  
-В окне списка файлов проекта кликнем правой кнопкой мыши в любом месте списка и в появившемся меню выберем команду `Pymakr --> Upload project`, 
-либо в строке состояния VSCode из списка команд Pymakr (2):  
+### 8. Flash the project
+You have to connect to your controller: open `Pymakr` console or run `Pymakr --> Connect`.  
+Press right button of mouse inside file list of project and chhose the command `Pymakr --> Upload project`, 
+or choose this command in VSCode's status bar:  
 ![Pymakr](/img/pymakr.png)  
-выберем ту же команду.  
 <details>
-   <summary>Обратите внимание, что...</summary>
+   <summary>Pay attention to...</summary>
 
-   в настройках проекта в файле `pymakr.conf` (ключ `sync_folder`) указано, 
-   что исходные коды загружаемого в контроллер проекта находятся в каталоге `src`.  
-   У проекта два главных файла:  
-   1. boot.py, выполняемый при загрузке контроллера (аналог функции `void setup()`, если бы мы писали код на C)
-   2. main.py, запускаемый после `boot.py`.  
-   Файл `boot.py` может отсутствовать. 
+   Key `sync_folder` in `pymakr.conf` set to `src`. 
+   It means all the uploaded files are in `src` folder.  
+   Each project in micropython has two main files:  
+   1. `boot.py`. It runs when controller resets.
+   2. `main.py`. Main file with code.  
+   `boot.py` may be absent. 
 
 </details>
-После заливки проекта на контроллере будет мигать синий диод, посылая сигнал SOS, а в открывшемся терминале периодически будет появляться строка "SOS!".  
-Проект будет работать и после перезагрузки контроллера.
+So, after project is uploaded, blue LED will flash to send SOS-signal and `SOS` will be printed in REPL.
+Project will work after controller reset too.  
 
-> :warning: При работающем на контроллере проекте, во время коннекта к контроллеру необходимо нажать Ctrl+C, чтобы прекратить выполнение проекта и попасть
-  в консоль питона на контроллере.
+> :warning: You have to press Ctrl+C while connect to working controller to stop working cycle and get REPL prompt.
 
-## Заключение
-Мы подготовили среду и залили свой первый проект на Micropython на контроллер ESP32.  
+## Conclusion
+We prepare work tools and upload our first micropython project to ESP32 controller.
 
-> :warning: В качестве дополнения установите себе инструмент `picocom`:
+> :warning: Install the `picocom` useful tool:
 >  ```bash
 >  sudo apt install picocom
 >  ```
->  Это удобный инструмент, предоставляющий доступ к Python-консоли контроллера:  
+It is more stable tool to connect to REPL:  
 >  ```bash
 >  $ picocom /dev/ttyUSB0 -b115200
 >  ```
