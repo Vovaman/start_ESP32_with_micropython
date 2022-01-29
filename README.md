@@ -29,7 +29,7 @@ So, we have:
 1. ESP32 controller.
    Will work with [ESP32S-WROOM-32](https://aliexpress.ru/item/1005002611857804.html?item_id=1005002611857804&sku_id=12000021386518349&spm=a2g2w.productlist.0.0.28c767f2tgjXEB) (approx $5):  
    ![ESP32](/img/ESP.png)  
-   *Picture from http://myrobot.ru*  
+   *Picture from http://developer.alexanderklimov.ru/arduino/esp32/*  
    There is wide range of ESP32 implementations. This project is applicable to many of them, but another firmware version has to be downloaded.
 2. OS is Ubuntu 20.04.3 LTS.  
    > :warning: Windows only by demands... 
