@@ -72,24 +72,42 @@ Next step. We have to install [VSCode](https://code.visualstudio.com/).
 
 </details>
 
-### 3. Pymakr
-[Pymakr](https://pycom.io/products/supported-networks/pymakr/) is the VSCode's extension to work with `micropython`.
+### 3. VSCode add-ins
+We have to install three add-ins for VSCode: Python, Pylance, Pymakr
 
-<details>
-   <summary>Install Pymakr</summary>
+![Py...](/img/addins_python_pylance.png)
 
-   Run VSCode and press `Extensions`:
-   ![Extensions](/img/vs1.png)
-   Insert `Pymakr` in search field, choose `Pymakr` and press `install` button:
-   ![Pymakr](/img/vs2.png)
+![Pymakr](/img/addins_pymakr.png)
 
-</details>
+> :warning: **Warning:** Reboot your computer after **Pymakr** installation.
 
-The settings window and terminal will be opened after installation:
-![PymakrEnd](/img/vs3.png)
-Close it.
+### 4. pipenv и pyenv installation
+Go to the home directory:
+```bash
+cd ~
+```
+Pipenv is a tool to create and manage virtual environment for your
+Python's projects.
+```bash
+pip3 install pipenv --user
+```
+Pyenv is a tool to manage multiple versions of Python in your computer.
+```bash
+curl https://pyenv.run | bash
+```
+Add next strings to your ~/.bashrc:
+```bash
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+export PIPENV_VENV_IN_PROJECT=1
+```
+...and run:
+```bash
+source .bashrc
+```
 
-### 4. Copy this project
+### 5. Copy this project
 Suppose the parent directory is `~/work/projects`.
 
 <details>
@@ -119,7 +137,7 @@ Suppose the parent directory is `~/work/projects`.
 
 </details>
 
-### 5. Initialize project
+### 6. Initialize project
 Open terminal and got to `~/work/projects/start_ESP32_with_micropython` with project source code.
 
 Run this command inside the folder:
@@ -138,7 +156,7 @@ These packages will be installed during environment initialization:
 - `esptool`, tool to flash our controller
 - `micropy-cli` - just useful tool.
 
-### 6. Flash the controller
+### 7. Flash the controller
 
 **Download firmware**
 Download appropriate firmware from https://micropython.org/download/.
@@ -213,7 +231,14 @@ $ esptool.py --chip esp32 --port /dev/ttyUSB0 --baud 460800 write_flash -z 0x100
 > :warning: If your got other controller model, copy the commands from page your downloaded the firmware file!
 > Change port name and file name to correct values!
 
-Use `Pymakr` in `VSCode` to check the result:
+Use `Pymakr` in `VSCode` to check the result.
+Press the `Pymakr` button and check your port in devices list.
+If it is not, run command `New device --> Serial...` and add your controller.
+
+![Pymakr](/img/pymakr01.png)
+
+Press the lightning icon
+
 1. Open file `pymakr.conf` and change `address` field to correct port name.
 2. Click `Pymakr Console`:
    ![Pymakr](/img/pymakr.png)
