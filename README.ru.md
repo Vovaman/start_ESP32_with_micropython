@@ -255,7 +255,7 @@ $ esptool.py --chip esp32 --port /dev/ttyUSB0 --baud 460800 write_flash -z 0x100
 ![Upload](/img/pymakr04.png)
 
 ...затем выполним команду "Hard reset device":
-![Upload](/img/pymakr06.png)
+![Reset](/img/pymakr06.png)
 
 После перезагрузки контроллера на нём будет мигать синий диод,
 посылая сигнал SOS.

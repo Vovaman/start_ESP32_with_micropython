@@ -237,43 +237,39 @@ If it is not, run command `New device --> Serial...` and add your controller.
 
 ![Pymakr](/img/pymakr01.png)
 
-Press the lightning icon
+Press the lightning icon to connect device:
+![Connect](/img/pymakr02.png)
+Then press `Create terminal` button and the window with controller's console will appear:
+![Terminal](/img/pymakr03.png)
 
-1. Open file `pymakr.conf` and change `address` field to correct port name.
-2. Click `Pymakr Console`:
-   ![Pymakr](/img/pymakr.png)
-3. Terminal's window will be opened:
-   ![Pymakr2](/img/pymakr02.png)
-   It means we are inside controller and use Python's REPL.
+Write such strings in it:
+```python
+>>> from machine import Pin
+>>> p2 = Pin(2, Pin.OUT)
+>>> p2.on()
+```
+So, blue diode will light up.
 
-   Run the code:
-   ```python
-   >>> from machine import Pin
-   >>> p2 = Pin(2, Pin.OUT)
-   >>> p2.on()
-   ```
-   Blue LED will light up (this example is actual only for controllers with built-in LED).
+### 8. Install the project
+You have to connect to device before installation (we've made this
+in previous step).
 
-### 7. Flash the project
-You have to connect to your controller: open `Pymakr` console or run `Pymakr --> Connect`.
-Press right button of mouse inside file list of project and chhose the command `Pymakr --> Upload project`,
-or choose this command in VSCode's status bar:
-![Pymakr](/img/pymakr.png)
-<details>
-   <summary>Pay attention to...</summary>
+Right click on `main.py` file and run command `Pymakr --> Upload to device`:
+![Upload](/img/pymakr04.png)
+...and `Hard reset device` command:
+![Reset](/img/pymakr06.png)
 
-   Key `sync_folder` in `pymakr.conf` set to `src`.
-   It means all the uploaded files are in `src` folder.
-   Each project in micropython has two main files:
-   1. `boot.py`. It runs when controller resets.
-   2. `main.py`. Main file with code.
-   `boot.py` may be absent.
+Blue diode will blink after reboot. Diode will send Mayday signal.
 
-</details>
-So, after project is uploaded, blue LED will flash to send SOS-signal and `SOS` will be printed in REPL.
-Project will work after controller reset too.
+You have to stop the controller to see the script's output in terminal:
+1. Stop script by command `Stop script`.
+2. Open terminal in controller.
+3. Right click on `main.py` file and run `Pymakr --> Run file on device`
+   command.
 
-> :warning: You have to press Ctrl+C while connect to working controller to stop working cycle and get REPL prompt.
+> :warning: To get into controller's terminal while it running you have
+  to stop script on it.
+  ![StopScript](/img/pymakr05.png)
 
 ## Conclusion
 We prepare work tools and upload our first micropython project to ESP32 controller.
