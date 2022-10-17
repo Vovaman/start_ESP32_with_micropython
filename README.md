@@ -144,6 +144,7 @@ Run this command inside the folder:
 ```bash
 $ pipenv install
 ```
+
 <details>
    <summary>Why?</summary>
 
