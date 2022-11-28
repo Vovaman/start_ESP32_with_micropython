@@ -4,21 +4,18 @@
 ## Introduction
 This project contains all steps to start to work with [ESP32](https://www.espressif.com/en/products/socs/esp32)
 using [Micropython](https://micropython.org/).
+
 Besides this description project contains code for LED blinking. We will run this code on cotroller.
 
 **Our goal** is to run project on controller to understand all the process.
-
-**Perspective** is to create [standard "connector"](https://github.com/Vovaman/connectorESP). This connector will realize some
-control algorithm, acquire data from plugged devices and send it to [platform](https://github.com/Vovaman/peresvet).
-
-First practical project is ["anti-caisson"](https://github.com/Vovaman/wellCabin), which is coffer over well.
-Controller will switch on/off heating and ventilation and will acquire water pressure data. More perspective - switch on/off the pump.
 
 **Why micropython?** All other referenced above projects are in Python. So, this is why micropython is the better choice.
 
 ## For whom
 Firstly, for myself to not forget all the sequence.
+
 Secondly, for programmers wishing to automate some things around.
+
 Thirdly, for all handy guys.
 Due to possible programming weakness among fans, description will be some redundant. But these redundancies will be under spoilers.
 However, it is necessary to have some basic skills with computer: run terminal, work with commands in console, download files in browser and save them into appropriate places and so on...
@@ -185,7 +182,7 @@ Or download the newer version from https://micropython.org/download/esp32/.
 
 **Set rights to write**
 <details>
-   <summary>sudo adduser user_name dialout</summary>
+   <summary>sudo adduser $USER dialout</summary>
 
    Our working account needs rights for write to upgrade the controller.
    We have to run two commands in terminal to do so:
@@ -255,22 +252,20 @@ So, blue diode will light up.
 You have to connect to device before installation (we've made this
 in previous step).
 
-Right click on `main.py` file and run command `Pymakr --> Upload to device`:
-![Upload](/img/pymakr04.png)
-...and `Hard reset device` command:
-![Reset](/img/pymakr06.png)
+Go to project explorer and see PYMAKR project list.
+
+Press the `Sync project to device` button:
+![Sync](/img/pymakr04.png)
+
+...and run `Hard reset device` command:
+![Reset](/img/pymakr05.png)
 
 Blue diode will blink after reboot. Diode will send Mayday signal.
 
-You have to stop the controller to see the script's output in terminal:
-1. Stop script by command `Stop script`.
-2. Open terminal in controller.
-3. Right click on `main.py` file and run `Pymakr --> Run file on device`
-   command.
+Open te controller's terminal and see the script's output:
+![Script](/img/pymakr06.png)
 
-> :warning: To get into controller's terminal while it running you have
-  to stop script on it.
-  ![StopScript](/img/pymakr05.png)
+You can stop script execution by pressing Ctrl+C inside terminal.
 
 ## Conclusion
 We prepare work tools and upload our first micropython project to ESP32 controller.
