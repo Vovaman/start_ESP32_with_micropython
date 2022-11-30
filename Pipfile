@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 micropy-cli = "*"
 esptool = "*"
+mpremote = "*"
 
 [dev-packages]
 

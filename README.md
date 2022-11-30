@@ -152,7 +152,8 @@ $ pipenv install
 
 These packages will be installed during environment initialization:
 - `esptool`, tool to flash our controller
-- `micropy-cli` - just useful tool.
+- `micropy-cli` - just useful tool,
+- `mpremote` - just another useful command-line tool/
 
 ### 7. Flash the controller
 
@@ -266,6 +267,54 @@ Open te controller's terminal and see the script's output:
 ![Script](/img/pymakr06.png)
 
 You can stop script execution by pressing Ctrl+C inside terminal.
+
+## mpremote
+[`Mpremote`](https://docs.micropython.org/en/latest/reference/mpremote.html) is very useful tool to work with controller. It is
+included into package list for this project and installed automatically by `pipenv install`.
+
+Command list of `mpremote` is under link above and we don't repeat it here.
+
+`Mpremote` allows copy files between comp and controller simply, check controller's file system and even mount comp's file system to controller.
+
+So, here is one of the possible package debugging scenarios.
+
+The following file system structure is created on controller while installing some project and packages to it:
+
+```
+/
+├─ boot.py
+├─ main.py
+└─ lib
+    ├─ <package_name_1>
+    |    ├─ __init__.py
+    |    └─ <file>.py
+    └─ <package_name_2>
+```
+
+Run such commands to see the files on controller:
+
+```bash
+$ mpremote fs ls /
+$ mpremote fs ls /lib
+```
+
+> :warning: **Warning:** Your have to disconnect controller in
+> **Pymakr** to work with `mpremote`. `Mpremote` recognize the
+> controller's port by itself. Use `mpremote connect` command if
+> your have several connected controllers.
+
+So, suppose we debug `<package_name_1>` package.
+
+Then you can copy `<file.py>` to controller by
+
+```bash
+$ mpremote fs cp <path_to_package_file>/<file.py> :/lib/<package_name_1>
+```
+
+## micropy-cli
+[`Micropy-cli`](https://micropy-cli.readthedocs.io/en/latest/) is also very useful tool.
+
+One of the useful features is installing local packages...
 
 ## Conclusion
 We prepare work tools and upload our first micropython project to ESP32 controller.
