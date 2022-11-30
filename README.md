@@ -153,7 +153,7 @@ $ pipenv install
 These packages will be installed during environment initialization:
 - `esptool`, tool to flash our controller
 - `micropy-cli` - just useful tool,
-- `mpremote` - just another useful command-line tool/
+- `mpremote` - just another useful command-line tool.
 
 ### 7. Flash the controller
 
@@ -299,7 +299,7 @@ $ mpremote fs ls /lib
 ```
 
 > :warning: **Warning:** Your have to disconnect controller in
-> **Pymakr** to work with `mpremote`. `Mpremote` recognize the
+> **Pymakr** to work with `mpremote`. `Mpremote` recognizes the
 > controller's port by itself. Use `mpremote connect` command if
 > your have several connected controllers.
 
@@ -310,6 +310,8 @@ Then you can copy `<file.py>` to controller by
 ```bash
 $ mpremote fs cp <path_to_package_file>/<file.py> :/lib/<package_name_1>
 ```
+
+...and re-run your project.
 
 ## micropy-cli
 [`Micropy-cli`](https://micropy-cli.readthedocs.io/en/latest/) is also very useful tool.

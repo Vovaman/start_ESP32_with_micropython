@@ -330,19 +330,12 @@ $ mpremote fs ls /lib
 $ mpremote fs cp <path_to_package_file>/<file.py> :/lib/<package_name_1>
 ```
 
+...после чего перезапустите проект.
+
 ## micropy-cli
 [`Micropy-cli`](https://micropy-cli.readthedocs.io/en/latest/) также очень полезный инструмент.
 
-Оодна из полезных возможностей - установка локальных пакетов...
+Одна из полезных возможностей - установка локальных пакетов...
 
 ## Заключение
 Мы подготовили среду и залили свой первый проект на Micropython на контроллер ESP32.
-
-> :warning: В качестве дополнения установите себе инструмент `picocom`:
->  ```bash
->  sudo apt install picocom
->  ```
->  Это удобный инструмент, предоставляющий доступ к Python-консоли контроллера:
->  ```bash
->  $ picocom /dev/ttyUSB0 -b115200
->  ```
