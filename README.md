@@ -320,12 +320,3 @@ One of the useful features is installing local packages...
 
 ## Conclusion
 We prepare work tools and upload our first micropython project to ESP32 controller.
-
-> :warning: Install the `picocom` useful tool:
->  ```bash
->  sudo apt install picocom
->  ```
-It is more stable tool to connect to REPL:
->  ```bash
->  $ picocom /dev/ttyUSB0 -b115200
->  ```
