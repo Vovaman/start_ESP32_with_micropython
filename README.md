@@ -9,8 +9,6 @@ Besides this description project contains code for LED blinking. We will run thi
 
 **Our goal** is to run project on controller to understand all the process.
 
-**Why micropython?** All other referenced above projects are in Python. So, this is why micropython is the better choice.
-
 ## For whom
 Firstly, for myself to not forget all the sequence.
 
@@ -159,8 +157,8 @@ These packages will be installed during environment initialization:
 
 **Download firmware**
 Download appropriate firmware from https://micropython.org/download/.
-If your controller model is the same as in picture above, you may use `esp32-20220117-v1.18.bin` from the project.
-Or download the newer version from https://micropython.org/download/esp32/.
+If your controller model is the same as in picture above, you may use `ESP32_GENERIC-20230426-v1.20.0.bin` from the project.
+Or download the newer version from https://micropython.org/download/ESP32_GENERIC/.
 
 **Check the port**
 <details>
@@ -225,7 +223,7 @@ $ esptool.py --chip esp32 --port /dev/ttyUSB0 erase_flash
 ```
 Write new firmware with micropython:
 ```bash
-$ esptool.py --chip esp32 --port /dev/ttyUSB0 --baud 460800 write_flash -z 0x1000 esp32-20220117-v1.18.bin
+$ esptool.py --chip esp32 --port /dev/ttyUSB0 --baud 460800 write_flash -z 0x1000 ESP32_GENERIC-20230426-v1.20.0.bin
 ```
 > :warning: If your got other controller model, copy the commands from page your downloaded the firmware file!
 > Change port name and file name to correct values!
