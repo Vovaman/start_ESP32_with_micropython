@@ -131,3 +131,5 @@ dmypy.json
 vm-data/
 
 src/*.json
+
+ESP*.bin
